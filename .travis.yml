@@ -1,0 +1,21 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t zimba/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run zimba/react-test npm test -- --coverage
+
+after_success:
+  - docker build -t zimba/multi-client ./client
+  - docker build -t zimba/multi-nginx ./nginx
+  - docker build -t zimba/multi-server ./server
+  - docker build -t zimba/multi-worker ./worker
+  # Log in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker push zimba/multi-client
+  - docker push zimba/multi-nginx
+  - docker push zimba/multi-server
+  - docker push zimba/multi-worker
