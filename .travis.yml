@@ -3,19 +3,19 @@ services:
   - docker
 
 before_install:
-  - docker build -t zimba/react-test -f ./client/Dockerfile.dev ./client
+  - docker build -t 01vadim10/react-test -f ./client/Dockerfile.dev ./client
 
 script:
-  - docker run zimba/react-test npm test -- --coverage
+  - docker run 01vadim10/react-test npm test -- --coverage
 
 after_success:
-  - docker build -t zimba/multi-client ./client
-  - docker build -t zimba/multi-nginx ./nginx
-  - docker build -t zimba/multi-server ./server
-  - docker build -t zimba/multi-worker ./worker
+  - docker build -t 01vadim10/multi-client ./client
+  - docker build -t 01vadim10/multi-nginx ./nginx
+  - docker build -t 01vadim10/multi-server ./server
+  - docker build -t 01vadim10/multi-worker ./worker
   # Log in to the docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
-  - docker push zimba/multi-client
-  - docker push zimba/multi-nginx
-  - docker push zimba/multi-server
-  - docker push zimba/multi-worker
+  - docker push 01vadim10/multi-client
+  - docker push 01vadim10/multi-nginx
+  - docker push 01vadim10/multi-server
+  - docker push 01vadim10/multi-worker
